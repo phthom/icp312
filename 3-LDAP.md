@@ -183,7 +183,9 @@ Take a note of the **ClusterIP** for a future use:
 
 To get access to the Open LDAP portal, use the following URL (where the i-address is the VM ip address):
 
-`http://<masterip>:31080
+`http://<masterip>:31080`
+
+
 
 ![ldaplogin](./images/ldaplogin.png)
 

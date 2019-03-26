@@ -4,7 +4,7 @@
 <div style="background-color:black;color:white; vertical-align: middle; text-align:center;font-size:250%; padding:10px; margin-top:100px"><b>
 IBM Cloud Private - Multi-Node Cluster Installation Lab
  </b></a></div>
----
+
 
 ![image-20190322173329630](images/image-20190322173329630-3272409.png)
 

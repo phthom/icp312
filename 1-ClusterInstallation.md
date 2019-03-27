@@ -719,7 +719,7 @@ docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom
 
 # Connection to ICP on the master
 cd /root
-curl -kLo cloudctl-linux-amd64-3.1.2-1203 https://$MAIP:8443/api/cli/cloudctl-linux-amd64
+curl -kLo cloudctl-linux-amd64-3.1.2-1203 https://$MA1IP:8443/api/cli/cloudctl-linux-amd64
 chmod 755 /root/cloudctl-linux-amd64-3.1.2-1203
 mv /root/cloudctl-linux-amd64-3.1.2-1203 /usr/local/bin/cloudctl
 

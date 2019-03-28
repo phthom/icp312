@@ -171,224 +171,9 @@ Return to your directory:
 
 Create a new YAML file named **bookinfo.yaml** to save the Bookinfo application manifest.
 
-  ```sh
-# Copyright 2017 Istio Authors
-#
-#   Licensed under the Apache License, Version 2.0 (the "License");
-#   you may not use this file except in compliance with the License.
-#   You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
+This file is located in 
 
-##################################################################################################
-# Details service
-##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: details
-  labels:
-    app: details
-    service: details
-spec:
-  ports:
-  - port: 9080
-    name: http
-  selector:
-    app: details
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: details-v1
-  labels:
-    app: details
-    version: v1
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: details
-        version: v1
-    spec:
-      containers:
-      - name: details
-        image: istio/examples-bookinfo-details-v1:1.10.1
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 9080
----
-##################################################################################################
-# Ratings service
-##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: ratings
-  labels:
-    app: ratings
-    service: ratings
-spec:
-  ports:
-  - port: 9080
-    name: http
-  selector:
-    app: ratings
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: ratings-v1
-  labels:
-    app: ratings
-    version: v1
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: ratings
-        version: v1
-    spec:
-      containers:
-      - name: ratings
-        image: istio/examples-bookinfo-ratings-v1:1.10.1
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 9080
----
-##################################################################################################
-# Reviews service
-##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: reviews
-  labels:
-    app: reviews
-    service: reviews
-spec:
-  ports:
-  - port: 9080
-    name: http
-  selector:
-    app: reviews
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: reviews-v1
-  labels:
-    app: reviews
-    version: v1
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: reviews
-        version: v1
-    spec:
-      containers:
-      - name: reviews
-        image: istio/examples-bookinfo-reviews-v1:1.10.1
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 9080
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: reviews-v2
-  labels:
-    app: reviews
-    version: v2
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: reviews
-        version: v2
-    spec:
-      containers:
-      - name: reviews
-        image: istio/examples-bookinfo-reviews-v2:1.10.1
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 9080
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: reviews-v3
-  labels:
-    app: reviews
-    version: v3
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: reviews
-        version: v3
-    spec:
-      containers:
-      - name: reviews
-        image: istio/examples-bookinfo-reviews-v3:1.10.1
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 9080
----
-##################################################################################################
-# Productpage services
-##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: productpage
-  labels:
-    app: productpage
-    service: productpage
-spec:
-  ports:
-  - port: 9080
-    name: http
-  selector:
-    app: productpage
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: productpage-v1
-  labels:
-    app: productpage
-    version: v1
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: productpage
-        version: v1
-    spec:
-      containers:
-      - name: productpage
-        image: istio/examples-bookinfo-productpage-v1:1.10.1
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 9080
----
-  ```
-
-Just save the file. **Don't create the kurbenetes resources yet**.
+**Don't create the kurbenetes resources yet**.
 
 
 
@@ -514,8 +299,6 @@ bookinfo-gateway   22s
 
 
 
-
-
 # Task3: Access the Bookinfo application
 
 After all pods for the Bookinfo application are in a running state and the gateway has been created,  you can access the Bookinfo **product page**. 
@@ -556,7 +339,7 @@ Now that we have the ports, let us find the IP:
 
 ```console
 export INGRESS_HOST=$(kubectl get po -l istio=ingressgateway -n istio-system -o 'jsonpath={.items[0].status.hostIP}')
-
+export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 ```
 
 As a result, show the variable:

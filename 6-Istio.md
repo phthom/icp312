@@ -161,10 +161,6 @@ Then patch the service account:
 kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "private-registry-key"}]}'
 ```
 
-```console
-kubectl get serviceaccount <your-service-account-name> -o yaml | grep -w infra-registry-key || kubectl patch serviceaccount <your-service-account-name> -p '{"imagePullSecrets": [{"name": "infra-registry-key"}]}'
-```
-
 
 
 ### Prepare the Bookinfo manifest

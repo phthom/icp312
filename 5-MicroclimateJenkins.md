@@ -35,8 +35,11 @@ From a machine that is hosting your environment, open a web browser and go to on
 
 # Task 2: Install Microclimate
 
-
 Application workloads can be deployed to run on an IBM Cloud Private cluster. The deployment of an application workload must be made available as a Helm package. Such packages must either be made available for deployment on a Helm repository, or loaded into an IBM Cloud Private internal Helm repository.
+
+Be sure you are connected to your environment : ./connect2icp.sh
+
+Also check helm.
 
 ## 1. Prepare the environment
 
@@ -124,6 +127,10 @@ Microclimate pipelines pull images from repositories other than `docker.io/ibmco
 
 A new cluster image policy can be created with the necessary image repositories by the following command:
 
+**Change mycluster.icp with your own cluster name** if necessary in the example below.
+
+Then execute that command
+
 ```
 cat <<EOF | kubectl create -f -
 apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
@@ -146,6 +153,8 @@ clusterimagepolicy.securityenforcement.admission.cloud.ibm.com/microclimate-clus
 ```
 
 ### Create a Docker registry secret for Microclimate
+
+Change **mycluster.icp with your own cluster name** if necessary in the example below.
 
 ```
 kubectl create secret docker-registry microclimate-registry-secret \
@@ -170,9 +179,11 @@ secret "microclimate-registry-secret" created
 
 Microclimate's pipeline deploys applications by using the Tiller at kube-system. Secure communication with this Tiller is required and must be configured by creating a Kubernetes secret that contains the required certificate files as detailed below.
 
-To create the secret, use the following command replacing the values with where you saved your files:
+To create the secret, use the following commands:
 
 ```
+export HELM_HOME=/root/.helm
+
 kubectl create secret generic microclimate-helm-secret --from-file=cert.pem=$HELM_HOME/cert.pem --from-file=ca.pem=$HELM_HOME/ca.pem --from-file=key.pem=$HELM_HOME/key.pem
 ```
 
@@ -185,7 +196,7 @@ secret "microclimate-helm-secret" created
 
 ### Create a new secret and Patch this secret to a service account
 
-And then use these command:
+And then use these command (**change my cluster.icp with your own cluster name** if necessary):
 
 ```
 kubectl create secret docker-registry microclimate-pipeline-secret --docker-server=mycluster.icp:8500 --docker-username=admin --docker-password=admin1! --docker-email=null --namespace=microclimate-pipeline-deployments
@@ -312,11 +323,11 @@ helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/rep
 
 Then install Microclimate (change ipaddress with your cluster address)
 
-> **VERY IMPORTANT** : Change with the **ipaddress** of the ICP Cluster.
+> **VERY IMPORTANT** : Change the **<masterip>** with the one of your master node.
 > It can take a few minutes before you can see the following results:
 
 ```
-helm install --name microclimate --namespace microclimate --set global.rbac.serviceAccountName=micro-sa,jenkins.rbac.serviceAccountName=pipeline-sa,global.ingressDomain=$MASTERIP.nip.io ibm-charts/ibm-microclimate --tls
+helm install --name microclimate --namespace microclimate --set global.rbac.serviceAccountName=micro-sa,jenkins.rbac.serviceAccountName=pipeline-sa,global.ingressDomain=<masterip>.nip.io ibm-charts/ibm-microclimate --tls
 ```
 Results:
 

@@ -22,7 +22,7 @@ This document explains the steps to enable the NFS dynamic volume provisioning i
 
 Its assumed that an NFS server is already available where the IP/hostname and the exported path are known.
 
-In the meantime, in all the nodes of the cluster, make sure the NFS client is installed. For an example, in Ubuntu run the following command :
+In the meantime, in **all the nodes** of the cluster, make sure the **NFS client** is installed. For an example, in Ubuntu run the following command :
 
 ```
 sudo apt-get -y update

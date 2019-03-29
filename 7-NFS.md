@@ -35,7 +35,7 @@ or for RHEL:
 yum -y install nfs-util 
 ```
 
-See in annex A how to setup a NFS server independantly.
+>  Important : See in **annex A** how to setup a **NFS server** on a separated VM before you continue this lab.
 
 #### **1. Enable Image Security in ICP**
 
@@ -199,7 +199,7 @@ Find below some basic instruction to setup and configure a NFS server:
 
 1. Install a specific server with RHEL version 7 and some storage
 
-2. Install nfs-util
+2. Install nfs-util (below an example on RHEL)
 
 `yum -y install nfs-util`
 
@@ -207,11 +207,11 @@ Find below some basic instruction to setup and configure a NFS server:
 
 `mkdir /data`
 
-4. Change permissions
+4. Change permissions (important)
 
-chmod 777 /data
+`chmod 777 /data`
 
-5. Configure the following file :
+5. Configure the following NFS server file :
 
 `nano /etc/exports`
 
@@ -225,7 +225,7 @@ Content of the exports file
 /data remoteip(rw,async,no_root_squash) 
 ```
 
-Where /data is your shared directory and remoteip is the ip address of your kubernetes node. You need to add all the ip caddresses (and options) for each member of the cluster in a **row**.
+Where /data is your shared directory and remoteip is the ip address of your kubernetes nodes. You need to add all the ip addresses (and options) for **all members (nodes)** of the cluster in a **row**.
 
 For example :
 
@@ -233,7 +233,7 @@ For example :
 /data 158.176.83.201(rw,async,no_root_squash) 158.176.83.202(rw,async,no_root_squash) 158.176.83.203(rw,async,no_root_squash) 158.176.83.204(rw,async,no_root_squash) 158.176.83.205(rw,async,no_root_squash)
 ```
 
-Then don't forget to restart both the nfs-config and nfs-server
+Then don't forget also to **restart** both the nfs-config and nfs-server
 
 ```console
 # systemctl restart nfs-config

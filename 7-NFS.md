@@ -1,3 +1,13 @@
+
+
+![icp000](images/icp000.png)
+
+
+
+![image-20190329160530064](images/image-20190329160530064-3871930.png)
+
+
+
 # NFS persistent Storage with IBM Cloud Private
 
 
@@ -215,12 +225,12 @@ Content of the exports file
 /data remoteip(rw,async,no_root_squash) 
 ```
 
-Where /data is your shared directory and remoteip is the ip address of your kubernetes node. You need to add all the ip caddresses (and options) for each member of the cluster in a row.
+Where /data is your shared directory and remoteip is the ip address of your kubernetes node. You need to add all the ip caddresses (and options) for each member of the cluster in a **row**.
 
 For example :
 
 ```console
-/data 158.176.83.201(rw,async,no_root_squash) /data 158.176.83.202(rw,async,no_root_squash) /data 158.176.83.203(rw,async,no_root_squash) /data 158.176.83.204(rw,async,no_root_squash) /data 158.176.83.205(rw,async,no_root_squash)
+/data 158.176.83.201(rw,async,no_root_squash) 158.176.83.202(rw,async,no_root_squash) 158.176.83.203(rw,async,no_root_squash) 158.176.83.204(rw,async,no_root_squash) 158.176.83.205(rw,async,no_root_squash)
 ```
 
 Then don't forget to restart both the nfs-config and nfs-server
@@ -230,7 +240,7 @@ Then don't forget to restart both the nfs-config and nfs-server
 # systemctl restart nfs-server
 ```
 
-
+![icp000](images/icp000.png)
 
 
 

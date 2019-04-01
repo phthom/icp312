@@ -16,6 +16,8 @@ Microclimate will guide you thru the creation of complete project including all 
 
 [Link to Microclimate documentation here](https://microclimate-dev2ops.github.io/)
 
+> **Important Prerequisite : you need to have implemented the NFS lab that creates a storage class : nfs-client** before doing that lab.
+
 ---
 
 
@@ -160,7 +162,7 @@ Change **mycluster.icp with your own cluster name** if necessary in the example 
 kubectl create secret docker-registry microclimate-registry-secret \
   --docker-server=mycluster.icp:8500 \
   --docker-username=admin \
-  --docker-password=admin \
+  --docker-password=admin1! \
   --docker-email=null
 ```
 
@@ -170,7 +172,7 @@ Results:
 # kubectl create secret docker-registry microclimate-registry-secret \
 >   --docker-server=mycluster.icp:8500 \
 >   --docker-username=admin \
->   --docker-password=admin \
+>   --docker-password=admin1! \
 >   --docker-email=null
 secret "microclimate-registry-secret" created
 ```
@@ -217,100 +219,9 @@ serviceaccount "default" patched
 
 
 
-### Add persistent volumes
+### Persistent volumes
 
-We need to create some persistent volumes before we start.
-
-First, ensure your persistent storage is using the correct permissions:
-
-`chmod -R 777 /tmp/data01`
-
-Then use that command (cut and paste the complete block and press enter):
-
-```console
-cat <<EOF | kubectl create -f -
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: hostpath-pv-rwo-mc1
-spec:
-  accessModes:
-  - ReadWriteOnce
-  capacity:
-    storage: 10Gi
-  hostPath:
-    path: /tmp/data01
-  persistentVolumeReclaimPolicy: Recycle
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: hostpath-pv-rwo-mc2
-spec:
-  accessModes:
-  - ReadWriteOnce
-  capacity:
-    storage: 10Gi
-  hostPath:
-    path: /tmp/data01
-  persistentVolumeReclaimPolicy: Recycle
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: hostpath-pv-rwm-mc1
-spec:
-  accessModes:
-  - ReadWriteMany
-  capacity:
-    storage: 10Gi
-  hostPath:
-    path: /tmp/data01
-  persistentVolumeReclaimPolicy: Recycle  
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: hostpath-pv-rwm-mc2
-spec:
-  accessModes:
-  - ReadWriteMany
-  capacity:
-    storage: 10Gi
-  hostPath:
-    path: /tmp/data01
-  persistentVolumeReclaimPolicy: Recycle  
-EOF
-```
-Results:
-```console
-# kubectl create  -f ./pv-mc.yaml
-persistentvolume "hostpath-pv-rwo-mc1" created
-persistentvolume "hostpath-pv-rwo-mc2" created
-persistentvolume "hostpath-pv-rwm-mc1" created
-persistentvolume "hostpath-pv-rwm-mc2" created
-```
-
-Once created, these 4 volumes (hostpath) can be listed with the following command:
-
-`kubectl get pv` 
-
-
-Results:
-```console
-# kubectl get pv
-NAME                          CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                                       STORAGECLASS               REASON    AGE
-helm-repo-pv                  5Gi        RWO            Delete           Bound       kube-system/helm-repo-pvc                   helm-repo-storage                    3h
-hostpath-pv-many-test1        50Gi       RWX            Recycle          Available                                                                                    2h
-hostpath-pv-once-test1        30Gi       RWO            Recycle          Available                                                                                    2h
-hostpath-pv-rwm-mc1           10Gi       RWX            Recycle          Available                                                                                    1m
-hostpath-pv-rwm-mc2           10Gi       RWX            Recycle          Available                                                                                    1m
-hostpath-pv-rwo-mc1           10Gi       RWO            Recycle          Available                                                                                    1m
-hostpath-pv-rwo-mc2           10Gi       RWO            Recycle          Available                                                                                    1m
-image-manager-5.10.96.73      20Gi       RWO            Retain           Bound       kube-system/image-manager-image-manager-0   image-manager-storage                3h
-logging-datanode-5.10.96.73   20Gi       RWO            Retain           Bound       kube-system/data-logging-elk-data-0         logging-storage-datanode             3h
-mongodb-5.10.96.73            20Gi       RWO            Retain           Bound       kube-system/mongodbdir-icp-mongodb-0        mongodb-storage                      3h
-```
+We need to use dynamic provisionning in this lab. We are going to use the **nfs-client** storage class during the helm install.
 
 
 
@@ -327,7 +238,7 @@ Then install Microclimate (change ipaddress with your cluster address)
 > It can take a few minutes before you can see the following results:
 
 ```
-helm install --name microclimate --namespace microclimate --set global.rbac.serviceAccountName=micro-sa,jenkins.rbac.serviceAccountName=pipeline-sa,global.ingressDomain=<masterip>.nip.io ibm-charts/ibm-microclimate --tls
+helm install --name microclimate --namespace microclimate --set global.rbac.serviceAccountName=micro-sa,persistence.storageClassName=nfs-client,jenkins.Persistence.StorageClass=nfs-client, jenkins.rbac.serviceAccountName=pipeline-sa,global.ingressDomain=<masterip>.nip.io ibm-charts/ibm-microclimate --tls
 ```
 Results:
 

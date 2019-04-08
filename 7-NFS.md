@@ -1,5 +1,3 @@
-
-
 ![icp000](images/icp000.png)
 
 
@@ -62,7 +60,7 @@ Run the helm command to install the helm chart with the following command
 ```
 helm repo update
 
-helm install --set podSecurityPolicy.enabled=true --set nfs.server=<ipaddressNFSserver> --set nfs.path=/data stable/nfs-client-provisioner --tls
+helm install --name nfs-provisioner --set podSecurityPolicy.enabled=true --set nfs.server=<ipaddressNFSserver> --set nfs.path=/data stable/nfs-client-provisioner --tls
 ```
 
 Supply the NFS server’s IP address/hostname, and the exported NFS path (/data in that case). We also enable the flag *podSecurityPolicy.enabled* which is required for ICP 3.1.2. *(For production usage, you may want to define a name instead of a randomly generated release name)*. Storage class is : nfs-client.

@@ -193,7 +193,7 @@ This is the end.
 
 ### Annex A
 
-Find below some basic instruction to setup and configure a NFS server:
+Find below some basic instructions to setup and configure a NFS server:
 
 1. Install a specific server with RHEL version 7 and some storage
 

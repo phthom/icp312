@@ -322,7 +322,7 @@ $MA1IP
 END
 ```
 
-Configure ICP file (config.yaml):
+Configure ICP file (config.yaml). To do so, **Execute** the following commands:
 
 ```console
 cd /opt/icp/cluster
@@ -354,7 +354,7 @@ Type the following command to install ICP Cluster on the 3 nodes:
 cd /opt/icp/cluster
 docker run --net=host -t -e LICENSE=accept -v "$(pwd)":/installer/cluster ibmcom/icp-inception-amd64:3.1.2-ee install
 ```
-> Note : the installation should take 30 minutes. So, if you don't see any error during the first 5 minutes, take another coffee. 
+> Note : the installation should take **30 minutes**. So, if you don't see any error during the first 5 minutes, take another coffee. 
 
 > Note : in case of error, you can retry the installation command or you can use the **uninstall** process :
 ```console 
@@ -410,7 +410,7 @@ mv /root/cloudctl-linux-amd64-3.1.2-1203 /usr/local/bin/cloudctl
 
 
 
-Modify the **connect2icp** command by executing the following commands:
+Modify the **connect2icp** command by **executing** the following commands:
 
 ```console
 cd /root
@@ -581,7 +581,7 @@ You finally went thru the following features :
 
 # Appendix: "All in One" Script 
 
-Find below one script file for the automated installation (All in one script - dont forget to change the IPs, passwords and prefix):
+Find below one script file for the automated installation (All in one script - dont forget to change the IPs, passwords, clustername and prefix):
 
 ```console
 #!/bin/bash

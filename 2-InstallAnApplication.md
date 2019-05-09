@@ -76,8 +76,6 @@ Edit the value.yaml file:
 
 Look at **values.yaml** and **modify it**. 
 
-`nano values.yaml`
-
 Replace the **service section** and choose a port (like 30073 for instance) with the following code:
 
 ```console
@@ -209,7 +207,7 @@ Exit the file (ctrl+x).
 Then review the **service template**:
 `nano /root/hellonginx/templates/service.yaml`
 
-Change the **-port section** with the following code (don't introduce any TAB in the file):
+Change the **- port section** with the following code (don't introduce any TAB in the file):
 
         - port: {{ .Values.service.externalPort }}
           targetPort: {{ .Values.service.internalPort }}
@@ -483,7 +481,7 @@ Successfully packaged chart and saved it to: /root/hellonginx-0.1.0.tgz
 **Login** to the master:
 `cloudctl login -a https://mycluster.icp:8443 --skip-ssl-validation`
 
-Then, use the **cloudctl catalog**command to load the chart:
+Then, use the **cloudctl catalog** command to load the chart:
 `cloudctl catalog load-helm-chart --archive /root/hellonginx-0.1.0.tgz`
 
 Results:
